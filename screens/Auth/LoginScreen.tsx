@@ -3,14 +3,26 @@ import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, SafeAr
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function LoginScreen({ navigation }) {
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+interface LoginScreenProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+interface Errors {
+  email?: string | null;
+  password?: string | null;
+  submit?: string | null;
+}
+
+export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
 
   const validateInputs = () => {
-    const newErrors = {};
+    const newErrors: Errors = {};
     if (!email.trim()) newErrors.email = "Email is required";
     if (!password) newErrors.password = "Password is required";
     setErrors(newErrors);
@@ -19,11 +31,11 @@ export default function LoginScreen({ navigation }) {
 
   const login = async () => {
     if (!validateInputs()) return;
-    
+
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password);
-    } catch (err) {
+    } catch (err: any) {
       setErrors({ submit: err.message });
       alert(err.message);
     } finally {
@@ -33,7 +45,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#0F172A" }}>
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
         style={{ backgroundColor: "#0F172A" }}
       >
@@ -186,7 +198,7 @@ export default function LoginScreen({ navigation }) {
             </Pressable>
 
             {/* Forgot Password */}
-            <Pressable 
+            <Pressable
               android_ripple={{ color: "rgba(59, 130, 246, 0.2)" }}
             >
               <Text style={{
