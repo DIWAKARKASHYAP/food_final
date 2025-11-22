@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ActivityIndicator, View } from "react-native";
 import AuthStack from "./AuthStack";
 import BottomTabs from "./BottomTabs";
 import QuizScreen from "../screens/Quiz/QuizScreen";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const Stack = createNativeStackNavigator();
 
 const LoadingScreen = () => (
   <View
@@ -22,7 +25,7 @@ const LoadingScreen = () => (
 );
 
 export default function AppNavigator() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isQuizDone, setIsQuizDone] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +34,7 @@ export default function AppNavigator() {
       try {
         setUser(currentUser);
         if (currentUser) {
-          const quizStatus = await AsyncStorage.getItem("quizDone");
+          const quizStatus = await AsyncStorage.getItem(`quizDone_${currentUser.uid}`);
           setIsQuizDone(quizStatus === "true");
         } else {
           setIsQuizDone(false);
@@ -52,14 +55,17 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <QuizeScreen />
-      {/* {!user ? (
-        <AuthStack />
-      ) : !isQuizDone ? (
-        <QuizScreen />
-      ) : (
-        <BottomTabs />
-      )} */}
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {!user ? (
+          <Stack.Screen name="Auth" component={AuthStack} />
+        ) : !isQuizDone ? (
+          <Stack.Screen name="Quiz">
+            {(props) => <QuizScreen {...props} onFinish={() => setIsQuizDone(true)} />}
+          </Stack.Screen>
+        ) : (
+          <Stack.Screen name="Main" component={BottomTabs} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

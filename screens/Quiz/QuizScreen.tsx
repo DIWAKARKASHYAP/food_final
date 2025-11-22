@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Pressable, ScrollView, SafeAreaView, Modal, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "../../firebase";
 
 const MCQ_QUESTIONS = [
   {
@@ -35,7 +36,16 @@ const MCQ_QUESTIONS = [
   },
 ];
 
-const ResultModal = ({ visible, score, total, onPress }) => (
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+interface ResultModalProps {
+  visible: boolean;
+  score: number;
+  total: number;
+  onPress: () => void;
+}
+
+const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
   <Modal
     visible={visible}
     animationType="fade"
@@ -147,7 +157,12 @@ const ResultModal = ({ visible, score, total, onPress }) => (
   </Modal>
 );
 
-export default function QuizScreen({ navigation }) {
+interface QuizScreenProps {
+  navigation: NativeStackNavigationProp<any>;
+  onFinish: () => void;
+}
+
+export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState("");
   const [score, setScore] = useState(0);
@@ -176,12 +191,11 @@ export default function QuizScreen({ navigation }) {
   const handleContinue = async () => {
     setLoading(true);
     try {
-      await AsyncStorage.setItem("quizDone", "true");
+      if (auth.currentUser) {
+        await AsyncStorage.setItem(`quizDone_${auth.currentUser.uid}`, "true");
+      }
       setLoading(false);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "BottomTabs" }],
-      });
+      onFinish();
     } catch (error) {
       console.error("Error saving quiz status:", error);
       setLoading(false);
