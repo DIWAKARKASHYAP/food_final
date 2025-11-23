@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, ScrollView, SafeAreaView, Modal, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, ScrollView, Modal, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from "../../firebase";
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 const MCQ_QUESTIONS = [
   {
     id: 1,
@@ -62,20 +62,20 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
     >
       <View
         style={{
-          backgroundColor: "#1E293B",
+          backgroundColor: "#1A1A1A",
           borderRadius: 24,
           padding: 32,
           alignItems: "center",
           width: "85%",
           borderWidth: 1,
-          borderColor: "#334155",
+          borderColor: "#333333",
         }}
       >
         <Text
           style={{
             fontSize: 32,
             fontWeight: "bold",
-            color: "#F1F5F9",
+            color: "#FFFFFF",
             marginBottom: 8,
           }}
         >
@@ -84,7 +84,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
         <Text
           style={{
             fontSize: 16,
-            color: "#94A3B8",
+            color: "#999999",
             marginBottom: 24,
           }}
         >
@@ -93,7 +93,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
 
         <View
           style={{
-            backgroundColor: "#0F172A",
+            backgroundColor: "#0F0F0F",
             borderRadius: 16,
             padding: 20,
             width: "100%",
@@ -104,7 +104,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
           <Text
             style={{
               fontSize: 14,
-              color: "#94A3B8",
+              color: "#999999",
               marginBottom: 8,
             }}
           >
@@ -114,7 +114,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
             style={{
               fontSize: 48,
               fontWeight: "bold",
-              color: "#10B981",
+              color: "#FF6B6B",
             }}
           >
             {score}/{total}
@@ -122,7 +122,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
           <Text
             style={{
               fontSize: 14,
-              color: "#94A3B8",
+              color: "#999999",
               marginTop: 8,
             }}
           >
@@ -134,7 +134,7 @@ const ResultModal = ({ visible, score, total, onPress }: ResultModalProps) => (
           onPress={onPress}
           android_ripple={{ color: "rgba(255, 255, 255, 0.2)" }}
           style={{
-            backgroundColor: "#10B981",
+            backgroundColor: "#FF6B6B",
             paddingVertical: 16,
             borderRadius: 14,
             width: "100%",
@@ -203,10 +203,10 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#0F172A" }}>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: "#0F0F0F" }}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
-        style={{ backgroundColor: "#0F172A" }}
+        style={{ backgroundColor: "#0F0F0F" }}
       >
         <View style={{ paddingHorizontal: 24, paddingVertical: 20 }}>
           {/* Progress Bar */}
@@ -226,7 +226,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
                 style={{
                   fontSize: 16,
                   fontWeight: "600",
-                  color: "#E2E8F0",
+                  color: "#E0E0E0",
                 }}
               >
                 Question {index + 1}/{MCQ_QUESTIONS.length}
@@ -234,7 +234,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
               <Text
                 style={{
                   fontSize: 14,
-                  color: "#94A3B8",
+                  color: "#999999",
                 }}
               >
                 Score: {score}
@@ -243,7 +243,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
             <View
               style={{
                 height: 6,
-                backgroundColor: "#334155",
+                backgroundColor: "#333333",
                 borderRadius: 3,
                 overflow: "hidden",
               }}
@@ -252,7 +252,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
                 style={{
                   height: "100%",
                   width: `${((index + 1) / MCQ_QUESTIONS.length) * 100}%`,
-                  backgroundColor: "#3B82F6",
+                  backgroundColor: "#FF6B6B",
                 }}
               />
             </View>
@@ -261,12 +261,12 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
           {/* Card Container */}
           <View
             style={{
-              backgroundColor: "#1E293B",
+              backgroundColor: "#1A1A1A",
               borderRadius: 20,
               padding: 24,
               marginBottom: 24,
               borderWidth: 1,
-              borderColor: "#334155",
+              borderColor: "#333333",
             }}
           >
             {/* Question */}
@@ -274,7 +274,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
               style={{
                 fontSize: 20,
                 fontWeight: "600",
-                color: "#F1F5F9",
+                color: "#FFFFFF",
                 marginBottom: 24,
                 lineHeight: 28,
               }}
@@ -292,14 +292,14 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
                     color:
                       selected === opt
                         ? "rgba(255, 255, 255, 0.1)"
-                        : "rgba(59, 130, 246, 0.1)",
+                        : "rgba(255, 107, 107, 0.1)",
                   }}
                   style={{
                     borderWidth: 2,
                     borderColor:
-                      selected === opt ? "#3B82F6" : "#475569",
+                      selected === opt ? "#FF6B6B" : "#333333",
                     backgroundColor:
-                      selected === opt ? "#1F3A5F" : "#0F172A",
+                      selected === opt ? "#3A1A1A" : "#0F0F0F",
                     padding: 16,
                     borderRadius: 14,
                   }}
@@ -309,7 +309,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
                       fontSize: 16,
                       fontWeight: "500",
                       color:
-                        selected === opt ? "#3B82F6" : "#E2E8F0",
+                        selected === opt ? "#FF6B6B" : "#E0E0E0",
                     }}
                   >
                     {opt}
@@ -326,7 +326,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
             android_ripple={{ color: "rgba(255, 255, 255, 0.2)" }}
             style={{
               backgroundColor:
-                !selected ? "#94A3B8" : "#10B981",
+                !selected ? "#666666" : "#FF6B6B",
               paddingVertical: 16,
               borderRadius: 14,
               marginBottom: 12,
@@ -351,7 +351,7 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
           {!selected && (
             <Text
               style={{
-                color: "#64748B",
+                color: "#666666",
                 textAlign: "center",
                 fontSize: 14,
               }}
@@ -381,10 +381,10 @@ export default function QuizScreen({ navigation, onFinish }: QuizScreenProps) {
               backgroundColor: "rgba(0, 0, 0, 0.7)",
             }}
           >
-            <ActivityIndicator size="large" color="#10B981" />
+            <ActivityIndicator size="large" color="#FF6B6B" />
           </View>
         </Modal>
       )}
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

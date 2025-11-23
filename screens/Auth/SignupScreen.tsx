@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-
+    import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface SignupScreenProps {
@@ -49,14 +49,15 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#0F172A" }}>
+
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: "#0F0F0F" }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "android" ? "height" : "padding"}
         style={{ flex: 1 }}
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-          style={{ backgroundColor: "#0F172A" }}
+          style={{ backgroundColor: "#0F0F0F" }}
           keyboardShouldPersistTaps="handled"
         >
           <View style={{ paddingHorizontal: 24, paddingVertical: 32 }}>
@@ -65,7 +66,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               <Text style={{
                 fontSize: 40,
                 fontWeight: "bold",
-                color: "#F1F5F9",
+                color: "#FFFFFF",
                 textAlign: "center",
                 marginBottom: 12
               }}>
@@ -73,7 +74,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               </Text>
               <Text style={{
                 fontSize: 16,
-                color: "#94A3B8",
+                color: "#999999",
                 textAlign: "center"
               }}>
                 Join us to get started
@@ -82,12 +83,12 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
 
             {/* Card Container */}
             <View style={{
-              backgroundColor: "#1E293B",
+              backgroundColor: "#1A1A1A",
               borderRadius: 20,
               padding: 24,
               marginBottom: 32,
               borderWidth: 1,
-              borderColor: "#334155",
+              borderColor: "#333333",
               shadowColor: "#000",
               shadowOffset: { width: 0, height: 20 },
               shadowOpacity: 0.5,
@@ -97,7 +98,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               {/* Email Input */}
               <View style={{ marginBottom: 24 }}>
                 <Text style={{
-                  color: "#E2E8F0",
+                  color: "#E0E0E0",
                   fontWeight: "600",
                   marginBottom: 12,
                   fontSize: 16
@@ -106,7 +107,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                 </Text>
                 <TextInput
                   placeholder="you@example.com"
-                  placeholderTextColor="#64748B"
+                  placeholderTextColor="#666666"
                   value={email}
                   onChangeText={(text) => {
                     setEmail(text);
@@ -117,18 +118,18 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                   autoCapitalize="none"
                   style={{
                     borderWidth: 2,
-                    borderColor: errors.email ? "#EF4444" : "#475569",
-                    backgroundColor: "#0F172A",
+                    borderColor: errors.email ? "#FF6B6B" : "#333333",
+                    backgroundColor: "#0F0F0F",
                     padding: 16,
                     borderRadius: 14,
                     fontSize: 16,
                     fontFamily: "System",
-                    color: "#F1F5F9",
+                    color: "#FFFFFF",
                   }}
                 />
                 {errors.email && (
                   <Text style={{
-                    color: "#EF4444",
+                    color: "#FF6B6B",
                     fontSize: 14,
                     marginTop: 8
                   }}>
@@ -140,7 +141,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               {/* Password Input */}
               <View style={{ marginBottom: 24 }}>
                 <Text style={{
-                  color: "#E2E8F0",
+                  color: "#E0E0E0",
                   fontWeight: "600",
                   marginBottom: 12,
                   fontSize: 16
@@ -149,7 +150,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                 </Text>
                 <TextInput
                   placeholder="••••••••"
-                  placeholderTextColor="#64748B"
+                  placeholderTextColor="#666666"
                   value={password}
                   onChangeText={(text) => {
                     setPassword(text);
@@ -159,18 +160,18 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                   editable={!loading}
                   style={{
                     borderWidth: 2,
-                    borderColor: errors.password ? "#EF4444" : "#475569",
-                    backgroundColor: "#0F172A",
+                    borderColor: errors.password ? "#FF6B6B" : "#333333",
+                    backgroundColor: "#0F0F0F",
                     padding: 16,
                     borderRadius: 14,
                     fontSize: 16,
                     fontFamily: "System",
-                    color: "#F1F5F9",
+                    color: "#FFFFFF",
                   }}
                 />
                 {errors.password && (
                   <Text style={{
-                    color: "#EF4444",
+                    color: "#FF6B6B",
                     fontSize: 14,
                     marginTop: 8
                   }}>
@@ -182,7 +183,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               {/* Confirm Password Input */}
               <View style={{ marginBottom: 32 }}>
                 <Text style={{
-                  color: "#E2E8F0",
+                  color: "#E0E0E0",
                   fontWeight: "600",
                   marginBottom: 12,
                   fontSize: 16
@@ -191,7 +192,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                 </Text>
                 <TextInput
                   placeholder="••••••••"
-                  placeholderTextColor="#64748B"
+                  placeholderTextColor="#666666"
                   value={confirmPassword}
                   onChangeText={(text) => {
                     setConfirmPassword(text);
@@ -201,18 +202,18 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                   editable={!loading}
                   style={{
                     borderWidth: 2,
-                    borderColor: errors.confirmPassword ? "#EF4444" : "#475569",
-                    backgroundColor: "#0F172A",
+                    borderColor: errors.confirmPassword ? "#FF6B6B" : "#333333",
+                    backgroundColor: "#0F0F0F",
                     padding: 16,
                     borderRadius: 14,
                     fontSize: 16,
                     fontFamily: "System",
-                    color: "#F1F5F9",
+                    color: "#FFFFFF",
                   }}
                 />
                 {errors.confirmPassword && (
                   <Text style={{
-                    color: "#EF4444",
+                    color: "#FF6B6B",
                     fontSize: 14,
                     marginTop: 8
                   }}>
@@ -227,7 +228,7 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
                 disabled={loading}
                 android_ripple={{ color: "rgba(255, 255, 255, 0.2)" }}
                 style={{
-                  backgroundColor: loading ? "#10B981" : "#10B981",
+                  backgroundColor: "#FF6B6B",
                   paddingVertical: 16,
                   borderRadius: 14,
                   marginBottom: 16,
@@ -252,10 +253,10 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
               {/* Login Link */}
               <Pressable
                 onPress={() => navigation.goBack()}
-                android_ripple={{ color: "rgba(59, 130, 246, 0.2)" }}
+                android_ripple={{ color: "rgba(255, 107, 107, 0.2)" }}
               >
                 <Text style={{
-                  color: "#3B82F6",
+                  color: "#FF6B6B",
                   textAlign: "center",
                   fontSize: 16,
                   fontWeight: "600"
@@ -267,6 +268,6 @@ export default function SignupScreen({ navigation }: SignupScreenProps) {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

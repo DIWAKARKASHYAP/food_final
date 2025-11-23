@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  ActivityIndicator,
+  
+} from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
+    import { SafeAreaProvider } from 'react-native-safe-area-context';
 interface LoginScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
@@ -44,194 +51,192 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#0F172A" }}>
+            <SafeAreaProvider style={{ flex: 1, backgroundColor: "#0F0F0F" }}>
+
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        style={{ backgroundColor: "#0F172A" }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          paddingHorizontal: 24,
+        }}
+        keyboardShouldPersistTaps="handled"
       >
-        <View style={{ paddingHorizontal: 24, paddingVertical: 32 }}>
-          {/* Header */}
-          <View style={{ marginBottom: 48 }}>
-            <Text style={{
-              fontSize: 40,
-              fontWeight: "bold",
-              color: "#F1F5F9",
+        {/* Title Section */}
+        <View style={{ marginBottom: 40 }}>
+          <Text
+            style={{
+              fontSize: 36,
+              fontWeight: "700",
+              color: "white",
               textAlign: "center",
-              marginBottom: 12
-            }}>
-              Welcome Back
-            </Text>
-            <Text style={{
+              marginBottom: 8,
+            }}
+          >
+            Welcome Back 👋
+          </Text>
+          <Text
+            style={{
               fontSize: 16,
-              color: "#94A3B8",
-              textAlign: "center"
-            }}>
-              Sign in to your premium account
-            </Text>
-          </View>
+              color: "#9CA3AF",
+              textAlign: "center",
+            }}
+          >
+            Sign in to continue your journey
+          </Text>
+        </View>
 
-          {/* Card Container */}
-          <View style={{
-            backgroundColor: "#1E293B",
+        {/* Form Card */}
+        <View
+          style={{
+            backgroundColor: "#161616",
+            padding: 28,
             borderRadius: 20,
-            padding: 24,
-            marginBottom: 32,
             borderWidth: 1,
-            borderColor: "#334155",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 20 },
-            shadowOpacity: 0.5,
-            shadowRadius: 40,
-            elevation: 10
-          }}>
-            {/* Email Input */}
-            <View style={{ marginBottom: 24 }}>
-              <Text style={{
-                color: "#E2E8F0",
-                fontWeight: "600",
-                marginBottom: 12,
-                fontSize: 16
-              }}>
-                Email
-              </Text>
-              <TextInput
-                placeholder="you@example.com"
-                placeholderTextColor="#64748B"
-                value={email}
-                onChangeText={(text) => {
-                  setEmail(text);
-                  if (errors.email) setErrors({ ...errors, email: null });
-                }}
-                editable={!loading}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                style={{
-                  borderWidth: 2,
-                  borderColor: errors.email ? "#EF4444" : "#475569",
-                  backgroundColor: "#0F172A",
-                  padding: 16,
-                  borderRadius: 14,
-                  fontSize: 16,
-                  fontFamily: "System",
-                  color: "#F1F5F9",
-                }}
-              />
-              {errors.email && (
-                <Text style={{
-                  color: "#EF4444",
-                  fontSize: 14,
-                  marginTop: 8
-                }}>
-                  {errors.email}
-                </Text>
-              )}
-            </View>
-
-            {/* Password Input */}
-            <View style={{ marginBottom: 32 }}>
-              <Text style={{
-                color: "#E2E8F0",
-                fontWeight: "600",
-                marginBottom: 12,
-                fontSize: 16
-              }}>
-                Password
-              </Text>
-              <TextInput
-                placeholder="••••••••"
-                placeholderTextColor="#64748B"
-                value={password}
-                onChangeText={(text) => {
-                  setPassword(text);
-                  if (errors.password) setErrors({ ...errors, password: null });
-                }}
-                secureTextEntry
-                editable={!loading}
-                style={{
-                  borderWidth: 2,
-                  borderColor: errors.password ? "#EF4444" : "#475569",
-                  backgroundColor: "#0F172A",
-                  padding: 16,
-                  borderRadius: 14,
-                  fontSize: 16,
-                  fontFamily: "System",
-                  color: "#F1F5F9",
-                }}
-              />
-              {errors.password && (
-                <Text style={{
-                  color: "#EF4444",
-                  fontSize: 14,
-                  marginTop: 8
-                }}>
-                  {errors.password}
-                </Text>
-              )}
-            </View>
-
-            {/* Login Button */}
-            <Pressable
-              onPress={login}
-              disabled={loading}
-              android_ripple={{ color: "rgba(255, 255, 255, 0.2)" }}
+            borderColor: "#2A2A2A",
+            marginBottom: 32,
+          }}
+        >
+          {/* Email */}
+          <View style={{ marginBottom: 22 }}>
+            <Text
               style={{
-                backgroundColor: loading ? "#3B82F6" : "#3B82F6",
-                paddingVertical: 16,
-                borderRadius: 14,
-                marginBottom: 16,
-                elevation: 5,
+                color: "#E5E7EB",
+                fontWeight: "600",
+                marginBottom: 10,
+                fontSize: 15,
               }}
             >
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                {loading && <ActivityIndicator color="white" size="small" />}
-                <Text
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    fontSize: 16,
-                    marginLeft: loading ? 8 : 0,
-                  }}
-                >
-                  {loading ? "Signing in..." : "Sign In"}
-                </Text>
-              </View>
-            </Pressable>
-
-            {/* Forgot Password */}
-            <Pressable
-              android_ripple={{ color: "rgba(59, 130, 246, 0.2)" }}
-            >
-              <Text style={{
-                color: "#3B82F6",
-                textAlign: "center",
-                fontSize: 16,
-                fontWeight: "600"
-              }}>
-                Forgot password?
-              </Text>
-            </Pressable>
-          </View>
-
-          {/* Signup Link */}
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-            <Text style={{
-              color: "#94A3B8",
-              fontSize: 16
-            }}>
-              Don't have an account?{" "}
+              Email
             </Text>
-            <Pressable onPress={() => navigation.navigate("Signup")}>
-              <Text style={{
-                color: "#3B82F6",
-                fontWeight: "bold",
-                fontSize: 16
-              }}>
-                Sign up
+            <TextInput
+              placeholder="you@example.com"
+              placeholderTextColor="#6B7280"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                if (errors.email) setErrors({ ...errors, email: null });
+              }}
+              editable={!loading}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              style={{
+                borderWidth: 1.5,
+                borderColor: errors.email ? "#EF4444" : "#3F3F46",
+                backgroundColor: "#0D0D0D",
+                padding: 16,
+                borderRadius: 14,
+                fontSize: 16,
+                color: "white",
+              }}
+            />
+            {errors.email && (
+              <Text style={{ color: "#EF4444", fontSize: 13, marginTop: 6 }}>
+                {errors.email}
               </Text>
-            </Pressable>
+            )}
           </View>
+
+          {/* Password */}
+          <View style={{ marginBottom: 28 }}>
+            <Text
+              style={{
+                color: "#E5E7EB",
+                fontWeight: "600",
+                marginBottom: 10,
+                fontSize: 15,
+              }}
+            >
+              Password
+            </Text>
+            <TextInput
+              placeholder="••••••••"
+              placeholderTextColor="#6B7280"
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+                if (errors.password) setErrors({ ...errors, password: null });
+              }}
+              secureTextEntry
+              editable={!loading}
+              style={{
+                borderWidth: 1.5,
+                borderColor: errors.password ? "#EF4444" : "#3F3F46",
+                backgroundColor: "#0D0D0D",
+                padding: 16,
+                borderRadius: 14,
+                fontSize: 16,
+                color: "white",
+              }}
+            />
+            {errors.password && (
+              <Text style={{ color: "#EF4444", fontSize: 13, marginTop: 6 }}>
+                {errors.password}
+              </Text>
+            )}
+          </View>
+
+          {/* Login Button */}
+          <Pressable
+            onPress={login}
+            disabled={loading}
+            android_ripple={{ color: "rgba(255,255,255,0.15)" }}
+            style={{
+              backgroundColor: loading ? "#2563EB" : "#3B82F6",
+              paddingVertical: 16,
+              borderRadius: 14,
+              alignItems: "center",
+            }}
+          >
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: "700",
+                  fontSize: 17,
+                }}
+              >
+                Sign In
+              </Text>
+            )}
+          </Pressable>
+
+          {/* Forgot Password */}
+          {/* <Pressable style={{ marginTop: 16 }}>
+            <Text
+              style={{
+                color: "#60A5FA",
+                textAlign: "center",
+                fontSize: 15,
+                fontWeight: "500",
+              }}
+            >
+              Forgot password?
+            </Text>
+          </Pressable> */}
+        </View>
+
+        {/* Signup CTA */}
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text style={{ color: "#9CA3AF", fontSize: 15 }}>
+            New here?
+          </Text>
+          <Pressable onPress={() => navigation.navigate("Signup")}>
+            <Text
+              style={{
+                color: "#60A5FA",
+                fontWeight: "600",
+                fontSize: 15,
+                marginLeft: 6,
+              }}
+            >
+              Create account
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
-    </SafeAreaView>
-  );
+            </SafeAreaProvider>
+
+);
 }
